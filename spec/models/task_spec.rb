@@ -22,6 +22,10 @@ RSpec.describe Task, type: :model do
         task2.valid?
         expect(task2.errors[:title]).to include("has already been taken")
       end
-      it 'is valid with another title' do end
+      it 'is valid with another title' do
+        task1 = create(:task)
+        task2 = build(:task,title: "title2")
+        expect(task2).to be_valid
+      end
   end
 end
