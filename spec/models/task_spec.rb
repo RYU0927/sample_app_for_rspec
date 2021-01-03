@@ -8,18 +8,19 @@ RSpec.describe Task, type: :model do
       end
       it 'is invalid without title' do
         task = build(:task, title: nil)
-        task.valid?
+        expect(task.valid?).to be(false)
         expect(task.errors[:title]).to include("can't be blank")
       end
       it 'is invalid without status' do
         task = build(:task, status: nil)
         task.valid?
+        expect(task.valid?).to be(false)
         expect(task.errors[:status]).to include("can't be blank")
       end
       it 'is invalid with a duplicate title' do
         task1 = create(:task)
         task2 = build(:task)
-        task2.valid?
+        expect(task2.valid?).to be(false)
         expect(task2.errors[:title]).to include("has already been taken")
       end
       it 'is valid with another title' do
