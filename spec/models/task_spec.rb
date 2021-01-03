@@ -19,15 +19,16 @@ RSpec.describe Task, type: :model do
         expect(task.errors[:status]).to include("can't be blank")
       end
       it 'is invalid with a duplicate title' do
-        task1 = create(:task)
-        task2 = build(:task)
-        expect(task2.valid?).to be(false)
-        expect(task2.errors[:title]).to include("has already been taken")
+        task = create(:task)
+        task_with_a_duplicate_title = build(:task)
+        expect(task_with_a_duplicate_title.valid?).to be(false)
+        expect(task_with_a_duplicate_title.errors[:title]).to include("has already been taken")
       end
       it 'is valid with another title' do
-        task1 = create(:task)
-        task2 = build(:task,title: "title2")
-        expect(task2).to be_valid
+        task = create(:task)
+        task_with_another_title = build(:task,title: "title2")
+        expect(task_with_another_title).to be_valid
+        expect(task_with_another_title.errors[:title]).to_not be_empty
       end
   end
 end
