@@ -12,7 +12,7 @@ FactoryBot.define do
     sequence(:title) { "title_1" }
     content { "content" }
     status { 0 }
-    deadline { now.end_of_week }
+    deadline { Time.current.end_of_week }
     association :user
   end
 end
