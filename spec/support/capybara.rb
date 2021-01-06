@@ -1,1 +1,1 @@
-capybara.javascript_driver = :selenium_chrome
+#capybara.javascript_driver = :selenium_chrome
