@@ -19,7 +19,7 @@ RSpec.describe 'Users', type: :system do
         it 'ユーザーの新規作成が失敗する' do
           visit new_user_path
           expect {
-            fill_in 'user_email', with: ''
+            fill_in 'user_email', with: nil
             fill_in 'user_password', with: 'password'
             fill_in 'user_password_confirmation', with: 'password'
             click_button 'SignUp'
@@ -55,10 +55,10 @@ RSpec.describe 'Users', type: :system do
   end
 
   describe 'ログイン後' do
+    let(:user){create(:user)}
     describe 'ユーザー編集' do
       context 'フォームの入力値が正常' do
         it 'ユーザーの編集が成功する' do
-          user = create(:user,email:'hoge@example.com')
           login(user)
           visit edit_user_path(user)
           fill_in 'user_email', with: 'foo@example.com'
@@ -71,7 +71,6 @@ RSpec.describe 'Users', type: :system do
       end
       context 'メールアドレスが未入力' do
         it 'ユーザーの編集が失敗する' do
-          user = create(:user)
           login(user)
           visit edit_user_path(user)
           fill_in 'user_email', with: nil
@@ -84,7 +83,6 @@ RSpec.describe 'Users', type: :system do
       end
       context '登録済のメールアドレスを使用' do
         it 'ユーザーの編集が失敗する' do
-          user = create(:user)
           user_registered_email = create(:user,email:'hoge@example.com')
           login(user)
           visit edit_user_path(user)
@@ -98,7 +96,6 @@ RSpec.describe 'Users', type: :system do
       end
       context '他ユーザーの編集ページにアクセス' do
         it '編集ページへのアクセスが失敗する' do
-        user = create(:user)
         another_user = create(:user)
         login(user)
         visit edit_user_path(another_user)
@@ -111,7 +108,6 @@ RSpec.describe 'Users', type: :system do
     describe 'マイページ' do
       context 'タスクを作成' do
         it '新規作成したタスクが表示される' do
-          user = create(:user)
           task = create(:task, user: user)
           login(user)
           visit user_path(user)
